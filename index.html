@@ -6,14 +6,30 @@
             body{
                 text-align: center;
             }
+            *{
+                box-sizing: border-box;
+            }
         </style>
     </head>
     <body>
-        <canvas>
-            
-        </canvas>
+        <div style="position: relative; display: inline-block;">
+            <div style="position: absolute; display: flex; align-items:center; width: 100%;padding: 20px;"> 
+                <h1></h1>
+                <div style="position: relative; width: 100%; height: 20px; display: flex; justify-content: flex-end;">
+                    <div style="background-color: red;height: 20px; width: 100%;"></div>
+                    <div id="ph" style="position: absolute; height: 20px; background-color: green; top: 0;right: 0; bottom: 0; width: 100%;;"></div>
+                    </div>
+                <div id="timer" style="background-color: blue; width: 100px; height: 50px; flex-shrink: 0; display: flex;align-items: center;justify-content: center;"></div>
+                <div style="position: relative; width: 100%; height: 20px;">
+                <div style="background-color: red;height: 20px;"></div>
+                <div id="eh" style="position: absolute; height: 20px; background-color: green; top: 0;right: 0; bottom: 0; left: 0;"></div>
+                </div>
+            </div>
+            <h1 id="et" style="position: absolute; color: blue; display: flex;align-items: center; justify-content: center; top: 0; right: 0; bottom: 0; left: 0;" ></h1>
+        <canvas></canvas>
         <script src="index.js">
     
         </script>
+        </div>
     </body>
 </html>
