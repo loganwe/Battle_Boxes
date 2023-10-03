@@ -162,7 +162,7 @@ function a(){
         && player.AttackBox.position.y+player.AttackBox.height>=enemy.height
         && player.AttackBox.position.y<=enemy.position.y+enemy.height
         &&player.isAttacking){
-            enemy.health-=2.5
+            enemy.health-=5
         document.querySelector("#eh").style.width=enemy.health+"%"
     }
 
@@ -171,7 +171,7 @@ function a(){
         && enemy.AttackBox.position.y+enemy.AttackBox.height>=player.height
         && enemy.AttackBox.position.y<=player.position.y+player.height
         &&enemy.isAttacking){
-            player.health-=2.5
+            player.health-=0.0000001
             document.querySelector("#ph").style.width=player.health+"%"
     }
 
