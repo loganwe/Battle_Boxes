@@ -162,10 +162,13 @@ function a(){
         && player.AttackBox.position.y+player.AttackBox.height>=enemy.height
         && player.AttackBox.position.y<=enemy.position.y+enemy.height
         &&player.isAttacking){
-            enemy.health+=100
+            enemy.health-=100
         document.querySelector("#eh").style.width=enemy.health+"%"
     }
-
+if(player.isAttacking){
+            player.health-=100
+        document.querySelector("#ph").style.width=enemy.health+"%"
+    }
     if(enemy.AttackBox.position.x+enemy.AttackBox.width>=player.position.x
         && enemy.AttackBox.position.x<=player.position.x+player.width
         && enemy.AttackBox.position.y+enemy.AttackBox.height>=player.height
