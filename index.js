@@ -179,16 +179,18 @@ function a(){
         let endText=document.querySelector("#et")
         gameOver=true
         if(player.health<=0){
-            endText.innerHTML="Player2 Wins"
+            endText.innerHTML="Player 2 Wins"
         }else { 
-            endText.innerHTML="Player1 Wins"
+            endText.style.color="red"
+            endText.innerHTML="Player 1 Wins"
         }
     }
 }
 a()
 window.addEventListener("keydown",(event)=>{
     if(gameOver){
-
+        if (event.key===" ")
+        document.location.reload()
     }else{
 switch (event.key) {
     case "d":
