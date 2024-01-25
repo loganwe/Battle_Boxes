@@ -315,7 +315,7 @@ window.addEventListener("keyup",(event)=>{
     }*/
     keyState[event.code] = false;
     })
-    window.addEventListener("keypress",event=>{
+    /*window.addEventListener("keypress",event=>{
         if (event.key="p"||"P")
         pause()
-    })
+    })*/
