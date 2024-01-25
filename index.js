@@ -5,6 +5,9 @@ canvas.width=1024
 canvas.height=576
 c.fillRect(0,0, canvas.width, canvas.height)
 const gravity=0.7
+const keyState={}
+const damage=0.5
+let isPaused = false;
 class Sprite{
     constructor({position,imageSrc,scale=1,frames=1}){
         this.position=position
@@ -90,19 +93,68 @@ class Fighter extends Sprite{
         }
     }
 
-    update(){
-        this.draw()
-        this.position.x+=this.velocity.x
-        this.position.y+=this.velocity.y
-        this.velocity.y+=gravity
+ 
+    update() {
+        this.draw();
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+        this.velocity.y += gravity;
 
-        if(this.position.y+this.height+this.velocity.y>=canvas.height-96)
-        this.velocity.y=0
+        // Constrain the player and enemy within the canvas bounds
+        this.position.x = Math.max(0, Math.min(this.position.x, canvas.width - this.width));
+        this.position.y = Math.max(0, Math.min(this.position.y, canvas.height - 96 - this.height));
 
-        if(this.position.y<=0)
-        this.velocity.y=1
-    }
-    
+        if (this.position.y <= 0) {
+            this.velocity.y = 1;
+            this.jumpCount = 0; // Reset jump count when on the ground
+        }
+
+        // Player controls
+        if (this === player && !gameOver) {
+            if (keyState["KeyD"]) this.velocity.x = 5;
+            else if (keyState["KeyA"]) this.velocity.x = -5;
+            else if (keyState["KeyW"]) this.velocity.y=-5
+            else this.velocity.x = 0;
+
+            if (keyState["Space"] && this.jumpCount < this.maxJumpCount) {
+                this.velocity.y = -15; // Adjust the jump velocity as needed
+                this.jumpCount++;
+            }
+
+            if (keyState["Space"]) {
+                this.isAttacking = true;
+                setTimeout(() => {
+                    this.isAttacking = false;
+                }, 100);
+            }
+        } else if (this === enemy && !gameOver) {
+            // Enemy automated logic
+            // Move towards the player
+            if (player.position.x > this.position.x) {
+                this.velocity.x = 2;
+            } else {
+                this.velocity.x = -2;
+            }
+
+            // Simulate an attack automatically
+            if (Math.random() < 0.01|| playerinrange()) {
+                this.isAttacking = true;
+                setTimeout(() => {
+                    this.isAttacking = false;
+                }, 100);
+            }
+
+            // Simulate enemy jump automatically
+            if (Math.random() < 0.01 && !this.jumping) {
+                this.velocity.y = -15; // Adjust the jump velocity as needed
+                this.jumping = true;
+            }
+
+            if (this.position.y + this.height >= canvas.height - 96) {
+                this.jumping = false;
+            }
+        }
+    }   
 
     attack(){
         this.isAttacking=true
@@ -148,7 +200,27 @@ const shop=new Sprite({
     },imageSrc:"shop.png",scale:2.75,frames:6
 })
 
+function playerinrange(){
+    if(player.AttackBox.position.x+player.AttackBox.width>=enemy.position.x
+        && player.AttackBox.position.x<=enemy.position.x+enemy.width
+        && player.AttackBox.position.y+player.AttackBox.height>=enemy.height
+        && player.AttackBox.position.y<=enemy.position.y+enemy.height){
+            return true
+        }else{
+        return false
+    }
+}
+
+function pause(){
+    if(isPaused==true)
+    isPaused=false
+    else
+    isPaused=true
+    window.requestAnimationFrame(a)
+    
+}
 function a(){
+    if(!isPaused){
     window.requestAnimationFrame(a)
     c.fillStyle="black"  
     c.fillRect(0,0,canvas.width,canvas.height)
@@ -162,7 +234,7 @@ function a(){
         && player.AttackBox.position.y+player.AttackBox.height>=enemy.height
         && player.AttackBox.position.y<=enemy.position.y+enemy.height
         &&player.isAttacking){
-            enemy.health-=2.5
+            enemy.health-=damage
         document.querySelector("#eh").style.width=enemy.health+"%"
     }
 
@@ -171,7 +243,7 @@ function a(){
         && enemy.AttackBox.position.y+enemy.AttackBox.height>=player.height
         && enemy.AttackBox.position.y<=player.position.y+player.height
         &&enemy.isAttacking){
-            player.health-=2.5
+            player.health-=damage
             document.querySelector("#ph").style.width=player.health+"%"
     }
 
@@ -179,12 +251,14 @@ function a(){
         let endText=document.querySelector("#et")
         gameOver=true
         if(player.health<=0){
-            endText.innerHTML="Player 2 Wins"
+            endText.style.color="blue"
+            endText.innerHTML="Computer Wins"
         }else { 
             endText.style.color="red"
-            endText.innerHTML="Player 1 Wins"
+            endText.innerHTML="Player Wins"
         }
     }
+}
 }
 a()
 window.addEventListener("keydown",(event)=>{
@@ -192,7 +266,7 @@ window.addEventListener("keydown",(event)=>{
         if (event.key===" ")
         document.location.reload()
     }else{
-switch (event.key) {
+/*switch (event.key) {
     case "d":
         player.velocity.x=5
         break;
@@ -219,12 +293,13 @@ switch (event.key) {
             enemy.isAttacking=false
             enemy.attack()
             break
-}
+}*/
+keyState[event.code] = true;
     } 
 })
 
 window.addEventListener("keyup",(event)=>{
-    switch (event.key) {
+    /*switch (event.key) {
         case "d":
             player.velocity.x=0
             break;
@@ -237,5 +312,10 @@ window.addEventListener("keyup",(event)=>{
             case "ArrowLeft":
         enemy.velocity.x=0
         break;
-    }
+    }*/
+    keyState[event.code] = false;
+    })
+    window.addEventListener("keypress",event=>{
+        if (event.key="p"||"P")
+        pause()
     })
