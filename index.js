@@ -147,7 +147,7 @@ class Fighter extends Sprite{
                 setTimeout(() => {
                     this.isAttacking = false;
                     eDanage+=1
-                }, 1);
+                }, 1000);
             }
         
 
