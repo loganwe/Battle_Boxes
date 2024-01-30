@@ -7,7 +7,7 @@ canvas.height=576
 const gravity=0.7
 const keyState={}
 const pDamage=1
-const eDanage=1
+let eDanage=1
 let isPaused = true;
 let endText=document.querySelector("#et")
 class Sprite{
@@ -146,7 +146,7 @@ class Fighter extends Sprite{
         
                 setTimeout(() => {
                     this.isAttacking = false;
-                    eDanage+=1
+                   // eDanage+=1
                 }, 1000);
             }
         
@@ -283,7 +283,7 @@ window.addEventListener("keydown",(event)=>{
         document.location.reload()
     }else{
 keyState[event.code] = true;
-if(keyState["ArrowDown"]){
+if(keyState["Enter"]){
     pause()
 }
     } 
