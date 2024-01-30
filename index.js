@@ -115,9 +115,11 @@ class Fighter extends Sprite{
         // Player controls
         if (this === player && !gameOver) {
             if (keyState["ArrowLeft"]) this.velocity.x = -5; 
-            else if (keyState["ArrowRight"]) this.velocity.x = 5;
-            else if (keyState["ArrowUp"]&& !this.jumping){ this.velocity.y=-20;this.jumping=true;setTimeout(()=>{this.jumping=false},1000) }
+            else if (keyState["ArrowRight"]) this.velocity.x = 5;0) 
             else this.velocity.x = 0;
+
+        
+            else if (keyState["ArrowUp"]&& !this.jumping){ this.velocity.y=-20;this.jumping=true;setTimeout(()=>{this.jumping=false},100}
 
             /*if (keyState["Space"] && this.jumpCount < this.maxJumpCount) {
                 this.velocity.y = -15; // Adjust the jump velocity as needed
