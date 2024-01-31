@@ -164,6 +164,14 @@ class Fighter extends Sprite{
         setTimeout(()=>{this.isAttacking=false;},100)
         // pDamage+=1
     }
+    dellete(){
+        this.AttackBox.position.x=this.position.x - this.offset
+        this.AttackBox.position.y=this.position.y
+        c.fillStyle=this.color
+        c.fillRect(this.position.x,this.position.y,0,0)
+        c.fillRect(this.AttackBox.position.x,this.AttackBox.position.y,0,0)
+        }
+    
 }
 
 const player= new Fighter({
@@ -236,7 +244,7 @@ player.draw()
 enemy.draw()
 shop.draw()
 function a(){
-    if(!isPaused){
+    if(!isPaused&&!gameOver){
     window.requestAnimationFrame(a)
     c.fillStyle="black"  
     c.fillRect(0,0,canvas.width,canvas.height)
@@ -267,12 +275,18 @@ function a(){
 
     if(player.health<=0||enemy.health<=0){
         gameOver=true
-        if(player.health<=0){
+        player.dellete()
+        enemy.dellete()
+        if(player.health<enemy.health){
             endText.style.color="blue"
             endText.innerHTML="Computer Wins"
-        }else { 
+            // break
+            cancelAnimationFrame(a)
+        }
+         if(enemy.health<player.health){ 
             endText.style.color="red"
             endText.innerHTML="Player Wins"
+            cancelAnimationFrame(a)
         }
     }
 }
