@@ -1,0 +1,45 @@
+body {
+    text-align: center;
+}
+
+#container {
+    position: relative;
+    display: inline-block;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+}
+
+#endText {
+    position: absolute;
+    color: blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+button {
+    margin: 10px;
+}
+
+.health-bar {
+    position: relative;
+    width: 100px;
+    height: 20px;
+    margin: 10px;
+    background-color: red;
+}
+
+.health-bar-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: green;
+}
